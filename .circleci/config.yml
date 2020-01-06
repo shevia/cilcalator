@@ -7,17 +7,26 @@ version: 2.1
 
 orbs:
   ruby: circleci/ruby@0.1.2 # Ruby orb registry: https://circleci.com/orbs/registry/orb/circleci/ruby
+  aws-cli: circleci/aws-cli@0.1.13
+  aws-ecr: circleci/aws-ecr@6.2.0
+  aws-eks: circleci/aws-eks@0.2.1
 
 jobs:
-  build:
+  build_image_and_deploy_staging:
     docker:
       - image: circleci/ruby:2.1.10
+    working_directory: ~/myapp
     steps:
       - checkout
-      - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/bundle-install
+      - setup_remote_docker
+      - aws-ecr/build-image:
+          repo: test-cilcalator-ecr
+          tag: "${CIRCLE_BRANCH}-${CIRCLE_SHA1}"
+      - aws-cli/install
+      - aws-ecr/ecr-login
+      - aws-ecr/push-image:
+          repo: test-cilcalator-ecr
+          tag: "${CIRCLE_BRANCH}-${CIRCLE_SHA1}"
 
 # What to do next? Set up a test job. Please see
 # https://circleci.com/docs/2.0/configuration-reference/, for more  info on how to get started.

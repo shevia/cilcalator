@@ -1,0 +1,241 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${APP_NAME}--env
+data:
+  ENVIRONMENT: "${ENVIRONMENT}"
+  BROKER_URL: "${BROKER_URL}"
+  CELERY_RESULT_BACKEND: "${CELERY_RESULT_BACKEND}"
+  MIXPANEL_TOKEN: "${MIXPANEL_TOKEN}"
+  STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}"
+  AWS_ELASTICSEARCH_INDEX: "${AWS_ELASTICSEARCH_INDEX}"
+  AWS_LAMBDA_TAG: "${AWS_LAMBDA_TAG}"
+  POSTMARK_API_KEY: "${POSTMARK_API_KEY}"
+  CHURNZERO_APP_KEY: "${CHURNZERO_APP_KEY}"
+
+  # We need to separate the AWS credentials used from CCI and from the containers
+  AWS_ACCESS_KEY_ID: "${CLIENTELA_AWS_ACCESS_KEY_ID}"
+  AWS_SECRET_ACCESS_KEY: "${CLIENTELA_AWS_SECRET_ACCESS_KEY}"
+  AWS_DEFAULT_REGION: "${CLIENTELA_AWS_DEFAULT_REGION}"
+
+  AWS_ELASTICSEARCH_BRANDS_INDEX: "${AWS_ELASTICSEARCH_BRANDS_INDEX}"
+  AWS_ELASTICSEARCH_WEBSITES_INDEX: "${AWS_ELASTICSEARCH_WEBSITES_INDEX}"
+  AWS_ELASTICSEARCH_CAMPAIGNS_INDEX: "${AWS_ELASTICSEARCH_CAMPAIGNS_INDEX}"
+  PRINTER_URL: "${PRINTER_URL}"
+  PRINTER_USER: "${PRINTER_USER}"
+  PRINTER_PRIVATE_KEY: "${PRINTER_PRIVATE_KEY}"
+  PRINTER_PUBLIC_KEY: "${PRINTER_PUBLIC_KEY}"
+  GITHUB_AUTH_TOKEN: "${GITHUB_AUTH_TOKEN}"
+  DATABASE_URL: "${DATABASE_URL}"
+  DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY}"
+  WEB_CONCURRENCY: "${WEB_CONCURRENCY}"
+  WEB_TIMEOUT: "${WEB_TIMEOUT}"
+  AWS_LAMBDA_REGION: "${AWS_LAMBDA_REGION}"
+  AWS_LAMBDA_BRAND_REPORT_WEB: "${AWS_LAMBDA_BRAND_REPORT_WEB}"
+  AWS_LAMBDA_BRAND_REPORT_XLSX: "${AWS_LAMBDA_BRAND_REPORT_XLSX}"
+  AWS_LAMBDA_BRANDS_REPORT_WEB: "${AWS_LAMBDA_BRANDS_REPORT_WEB}"
+  AWS_LAMBDA_BRANDS_REPORT_XLSX: "${AWS_LAMBDA_BRANDS_REPORT_XLSX}"
+  AWS_LAMBDA_CAMPAIGN_REPORT_WEB: "${AWS_LAMBDA_CAMPAIGN_REPORT_WEB}"
+  AWS_LAMBDA_CAMPAIGNS_REPORT_WEB: "${AWS_LAMBDA_CAMPAIGNS_REPORT_WEB}"
+  AWS_LAMBDA_CAMPAIGNS_REPORT_XLSX: "${AWS_LAMBDA_CAMPAIGNS_REPORT_XLSX}"
+  AWS_LAMBDA_INDUSTRY_REPORT_WEB: "${AWS_LAMBDA_INDUSTRY_REPORT_WEB}"
+  AWS_LAMBDA_INDUSTRY_REPORT_XLSX: "${AWS_LAMBDA_INDUSTRY_REPORT_XLSX}"
+  AWS_LAMBDA_MARKET_REPORT_WEB: "${AWS_LAMBDA_MARKET_REPORT_WEB}"
+  AWS_LAMBDA_MARKET_REPORT_XLSX: "${AWS_LAMBDA_MARKET_REPORT_XLSX}"
+  AWS_LAMBDA_MARKET_REPORT_DATA: "${AWS_LAMBDA_MARKET_REPORT_DATA}"
+  AWS_LAMBDA_OPPORTUNITY_BRAND_REPORT_WEB: "${AWS_LAMBDA_OPPORTUNITY_BRAND_REPORT_WEB}"
+  AWS_LAMBDA_OPPORTUNITY_BRAND_REPORT_XLSX: "${AWS_LAMBDA_OPPORTUNITY_BRAND_REPORT_XLSX}"
+  AWS_LAMBDA_SCREENSHOT_SEARCH: "${AWS_LAMBDA_SCREENSHOT_SEARCH}"
+  AWS_LAMBDA_VERIFICATION_REPORT_WEB: "${AWS_LAMBDA_VERIFICATION_REPORT_WEB}"
+  AWS_LAMBDA_VERIFICATION_REPORT_XLSX: "${AWS_LAMBDA_VERIFICATION_REPORT_XLSX}"
+  AWS_LAMBDA_WEBSITE_REPORT_WEB: "${AWS_LAMBDA_WEBSITE_REPORT_WEB}"
+  AWS_LAMBDA_WEBSITE_REPORT_XLSX: "${AWS_LAMBDA_WEBSITE_REPORT_XLSX}"
+  AWS_LAMBDA_NEWDEALS_REPORT_WEB: "${AWS_LAMBDA_NEWDEALS_REPORT_WEB}"
+  AWS_LAMBDA_NEWDEALS_REPORT_XLSX: "${AWS_LAMBDA_NEWDEALS_REPORT_XLSX}"
+  AWS_LAMBDA_AD_ZIP: "${AWS_LAMBDA_AD_ZIP}"
+  MAX_MONTHS_BRAND_REPORT: "${MAX_MONTHS_BRAND_REPORT}"
+  MAX_MONTHS_BRANDS_REPORT: "${MAX_MONTHS_BRANDS_REPORT}"
+  MAX_MONTHS_CAMPAIGN_REPORT: "${MAX_MONTHS_CAMPAIGN_REPORT}"
+  MAX_MONTHS_CAMPAIGNS_REPORT: "${MAX_MONTHS_CAMPAIGNS_REPORT}"
+  MAX_MONTHS_INDUSTRY_REPORT: "${MAX_MONTHS_INDUSTRY_REPORT}"
+  MAX_MONTHS_MARKET_REPORT: "${MAX_MONTHS_MARKET_REPORT}"
+  MAX_MONTHS_OPPORTUNITY_BRAND_REPORT: "${MAX_MONTHS_OPPORTUNITY_BRAND_REPORT}"
+  MAX_MONTHS_OPPORTUNITY_CAMPAIGN_REPORT: "${MAX_MONTHS_OPPORTUNITY_CAMPAIGN_REPORT}"
+  MAX_MONTHS_VERIFICATION_REPORT: "${MAX_MONTHS_VERIFICATION_REPORT}"
+  MAX_MONTHS_WEBSITE_REPORT: "${MAX_MONTHS_WEBSITE_REPORT}"
+  MAX_MONTHS_NEWDEALS_REPORT: "${MAX_MONTHS_NEWDEALS_REPORT}"
+  MAX_CAMPAIGNS_SEARCH_RESULTS: "${MAX_CAMPAIGNS_SEARCH_RESULTS}"
+  THROTTLE_RATE_SUSTAINED: "${THROTTLE_RATE_SUSTAINED}"
+  THROTTLE_RATE_BURST: "${THROTTLE_RATE_BURST}"
+  THROTTLE_RATE_MARKET_REPORT_DATA: "${THROTTLE_RATE_MARKET_REPORT_DATA}"
+  EMAIL_BACKEND: "${EMAIL_BACKEND}"
+  POSTMARK_SENDER: "${POSTMARK_SENDER}"
+  POSTMARK_TEST_MODE: "${POSTMARK_TEST_MODE}"
+  POSTMARK_TRACK_OPENS: "${POSTMARK_TRACK_OPENS}"
+  SEND_REPORT_HOUR: "${SEND_REPORT_HOUR}"
+  AWS_ELASTICSEARCH_REGION: "${AWS_ELASTICSEARCH_REGION}"
+  AWS_ELASTICSEARCH_HOST: "${AWS_ELASTICSEARCH_HOST}"
+  RAVEN_CONFIG_DSN: "${RAVEN_CONFIG_DSN}"
+  MEMCACHED_LOCATION: "${MEMCACHED_LOCATION}"
+  CACHE_TIMEOUT: "${CACHE_TIMEOUT}"
+  CACHE_MIDDLEWARE_SECONDS: "${CACHE_MIDDLEWARE_SECONDS}"
+  XLSX_REPORTS_BUCKET: "${XLSX_REPORTS_BUCKET}"
+  USERFEEDBACK_BUCKET: "${USERFEEDBACK_BUCKET}"
+  ZENDESK_USER: "${ZENDESK_USER}"
+  ZENDESK_PASSWORD: "${ZENDESK_PASSWORD}"
+  ZENDESK_SUBDOMAIN: "${ZENDESK_SUBDOMAIN}"
+  CREATE_TICKET_ZENDESK: "${CREATE_TICKET_ZENDESK}"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ${APP_NAME}--web
+  labels:
+    app: ${APP_NAME}
+spec:
+  selector:
+    name: ${APP_NAME}--web-pod
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: NodePort
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}--web
+  labels:
+    app: ${APP_NAME}
+spec:
+  replicas: ${CONTAINER_WEB_REPLICAS}
+  selector:
+    matchLabels:
+      name: ${APP_NAME}--web-pod
+  template:
+    metadata:
+      labels:
+        name: ${APP_NAME}--web-pod
+    spec:
+      nodeSelector:
+        nodegroup: ${WEB_NODE_GROUP}
+      restartPolicy: Always
+      containers:
+      - name: ${APP_NAME}--web-container
+        image: ${IMAGE_NAME}
+        command: ["pipenv", "run", "gunicorn", "-c", "gunicorn.conf.py", "project.wsgi"]
+        ports:
+        - name: http
+          containerPort: 8000
+          protocol: TCP
+        envFrom:
+          - configMapRef:
+              name: ${APP_NAME}--env
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}--schedule
+  labels:
+    app: ${APP_NAME}
+spec:
+  replicas: ${CONTAINER_SCHEDULE_REPLICAS}
+  selector:
+    matchLabels:
+      name: ${APP_NAME}--schedule-pod
+  template:
+    metadata:
+      labels:
+        name: ${APP_NAME}--schedule-pod
+    spec:
+      nodeSelector:
+        nodegroup: ${WORKER_NODE_GROUP}
+      restartPolicy: Always
+      containers:
+      - name: ${APP_NAME}--schedule-container
+        image: ${IMAGE_NAME}
+        command: ["pipenv", "run", "celery", "worker", "-A", "project", "--loglevel=info", "-Q", "schedule"]
+        envFrom:
+          - configMapRef:
+              name: ${APP_NAME}--env
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}--ninja
+  labels:
+    app: ${APP_NAME}
+spec:
+  replicas: ${CONTAINER_NINJA_REPLICAS}
+  selector:
+    matchLabels:
+      name: ${APP_NAME}--ninja
+  template:
+    metadata:
+      labels:
+        name: ${APP_NAME}--ninja
+    spec:
+      nodeSelector:
+        nodegroup: ${WORKER_NODE_GROUP}
+      restartPolicy: Always
+      containers:
+      - name: ${APP_NAME}--ninja-container
+        image: ${IMAGE_NAME}
+        command: ["pipenv", "run", "celery", "worker", "-A", "project", "--loglevel=info", "-Q", "ninja"]
+        envFrom:
+          - configMapRef:
+              name: ${APP_NAME}--env
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}--downloads
+  labels:
+    app: ${APP_NAME}
+spec:
+  replicas: ${CONTAINER_DOWNLOADS_REPLICAS}
+  selector:
+    matchLabels:
+      name: ${APP_NAME}--downloads-pod
+  template:
+    metadata:
+      labels:
+        name: ${APP_NAME}--downloads-pod
+    spec:
+      nodeSelector:
+        nodegroup: ${WORKER_NODE_GROUP}
+      restartPolicy: Always
+      containers:
+      - name: ${APP_NAME}--downloads-container
+        image: ${IMAGE_NAME}
+        command: ["pipenv", "run", "celery", "worker", "-A", "project", "--loglevel=info", "-Q", "downloads"]
+        envFrom:
+          - configMapRef:
+              name: ${APP_NAME}--env
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ${APP_NAME}--beat
+  labels:
+    app: ${APP_NAME}
+spec:
+  replicas: ${CONTAINER_BEAT_REPLICAS}
+  selector:
+    matchLabels:
+      name: ${APP_NAME}--beat-pod
+  template:
+    metadata:
+      labels:
+        name: ${APP_NAME}--beat-pod
+    spec:
+      nodeSelector:
+        nodegroup: ${WORKER_NODE_GROUP}
+      restartPolicy: Always
+      containers:
+      - name: ${APP_NAME}--beat-container
+        image: ${IMAGE_NAME}
+        command: ["pipenv", "run", "celery", "beat", "-A", "project", "--loglevel=info"]
+        envFrom:
+          - configMapRef:
+              name: ${APP_NAME}--env
