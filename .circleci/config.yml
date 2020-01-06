@@ -12,7 +12,7 @@ orbs:
   aws-eks: circleci/aws-eks@0.2.1
 
 jobs:
-  build_image_and_deploy_staging:
+  build:
     docker:
       - image: circleci/ruby:2.1.10
     working_directory: ~/myapp
