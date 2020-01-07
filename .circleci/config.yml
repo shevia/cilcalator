@@ -20,12 +20,12 @@ jobs:
       - checkout
       - setup_remote_docker
       - aws-ecr/build-image:
-          repo: test-cilcalator-ecr
+          repo: ${REPOSITORY_NAME}
           tag: "${CIRCLE_BRANCH}-${CIRCLE_SHA1}"
       - aws-cli/install
       - aws-ecr/ecr-login
       - aws-ecr/push-image:
-          repo: test-cilcalator-ecr
+          repo: ${REPOSITORY_NAME}
           tag: "${CIRCLE_BRANCH}-${CIRCLE_SHA1}"
   deploy-stage: &deploy-stage
     working_directory: ~/myapp
@@ -37,7 +37,7 @@ jobs:
             echo 'export PATH=$PATH:~/.local/bin' >> $BASH_ENV
             echo 'export IMAGE_NAME=${AWS_ECR_ACCOUNT_URL}/${REPOSITORY_NAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1}'  >> $BASH_ENV
       - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: test-cilcalator-eks-cluster
+          cluster-name: ${CLUSTER_NAME}
           aws-region: us-east-2
           install-kubectl: true
       - run:
@@ -45,12 +45,25 @@ jobs:
           command: echo 'export APP_NAME=${REPOSITORY_NAME}-${CIRCLE_BRANCH}' >> $BASH_ENV
       - checkout
       - run:
-          name: Deploy to Kubernetes
+          name: Prepare K8S templates
           command: |
-            sudo apt update
-            sudo apt install -qq -y gettext
-            envsubst < ${HOME}/myapp/.k8s/templates/staging.yml > ${HOME}/k8s.yml
-            kubectl apply -f ${HOME}/k8s.yml
+            aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${CLUSTER_NAME}
+            rm -rf .k8s/.generated && mkdir -p .k8s/.generated
+            for f in .k8s/templates/staging.yml
+              do
+              envsubst < $f > ".k8s/.generated/$(basename $f)"
+            done
+      - run:
+          name: Deploy
+          command: |
+            kubectl apply -f .k8s/.generated/ --validate=true
+      # - run:
+      #     name: Deploy to Kubernetes
+      #     command: |
+      #       sudo apt update
+      #       sudo apt install -qq -y gettext
+      #       envsubst < ${HOME}/myapp/.k8s/templates/staging.yml > ${HOME}/k8s.yml
+      #       kubectl apply -f ${HOME}/k8s.yml
 
 workflows:
   version: 2
