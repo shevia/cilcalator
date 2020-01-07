@@ -56,10 +56,12 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build-stage
+      - build-stage:
+          context: cilcalator-stage
       - deploy-stage:
-        requires:
-         - build-stage
+          context: cilcalator-stage
+          requires:
+          - build-stage
 
 # What to do next? Set up a test job. Please see
 # https://circleci.com/docs/2.0/configuration-reference/, for more  info on how to get started.
