@@ -27,6 +27,28 @@ jobs:
       - aws-ecr/push-image:
           repo: test-cilcalator-ecr
           tag: "${CIRCLE_BRANCH}-${CIRCLE_SHA1}"
+  deploy:
+    working_directory: ~/myapp
+    steps:
+      - run:
+          name: Add bin to path
+          command: |
+            echo 'export PATH=$PATH:~/.local/bin' >> $BASH_ENV
+            echo 'export IMAGE_NAME=${AWS_ECR_ACCOUNT_URL}/${REPOSITORY_NAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1}'  >> $BASH_ENV
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: test-cilcalator-eks-cluster
+          aws-region: us-east-2
+          install-kubectl: true
+      - run:
+          name: Set envars
+          command: echo 'export APP_NAME=${REPOSITORY_NAME}-${CIRCLE_BRANCH}' >> $BASH_ENV
+      - checkout
+      - run:
+          name: Deploy to Kubernetes
+          command: |
+            sudo apt update
+            sudo apt install -qq -y gettext
+            kubectl apply -f ${HOME}/myapp/.k8s/templates/staging.yml
 
 # What to do next? Set up a test job. Please see
 # https://circleci.com/docs/2.0/configuration-reference/, for more  info on how to get started.
