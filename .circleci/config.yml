@@ -57,7 +57,9 @@ workflows:
   build_and_deploy:
     jobs:
       - build-stage
-      - deploy-stage
+      - deploy-stage:
+        requires:
+         - build-stage
 
 # What to do next? Set up a test job. Please see
 # https://circleci.com/docs/2.0/configuration-reference/, for more  info on how to get started.
