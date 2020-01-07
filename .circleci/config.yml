@@ -49,7 +49,8 @@ jobs:
           command: |
             sudo apt update
             sudo apt install -qq -y gettext
-            kubectl apply -f ${HOME}/myapp/.k8s/templates/staging.yml
+            envsubst < ${HOME}/myapp/.k8s/templates/staging.yml > ${HOME}/k8s.yml
+            kubectl apply -f ${HOME}/k8s.yml
 
 workflows:
   version: 2
