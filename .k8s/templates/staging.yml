@@ -4,6 +4,8 @@ metadata:
   name: app-config
   labels:
     app: app-staging
+data:
+  IMAGE_NAME: ${AWS_ECR_ACCOUNT_URL}/${REPOSITORY_NAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
 
 
 ---
@@ -26,7 +28,7 @@ spec:
     spec:
       containers:
       - name: app-staging
-        image: ${IMAGE_NAME}
+        image: ${AWS_ECR_ACCOUNT_URL}/${REPOSITORY_NAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
         ports:
           - containerPort: 3000
         envFrom:
@@ -44,5 +46,5 @@ spec:
     app: app-staging
   ports:
   - protocol: TCP
-    port: 3000
+    port: 80
     targetPort: 3000
