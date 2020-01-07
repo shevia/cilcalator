@@ -29,6 +29,7 @@ jobs:
           tag: "${CIRCLE_BRANCH}-${CIRCLE_SHA1}"
   deploy:
     working_directory: ~/myapp
+    executor: aws-eks/python3
     steps:
       - run:
           name: Add bin to path
