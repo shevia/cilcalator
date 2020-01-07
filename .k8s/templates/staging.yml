@@ -5,7 +5,7 @@ metadata:
   labels:
     app: app-staging
 data:
-  IMAGE_NAME: ${AWS_ECR_ACCOUNT_URL}/${REPOSITORY_NAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
+  ENV_VALUE1: ${AWS_ECR_ACCOUNT_URL}/${REPOSITORY_NAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
 
 
 ---
