@@ -45,18 +45,10 @@ jobs:
           command: echo 'export APP_NAME=${REPOSITORY_NAME}-${CIRCLE_BRANCH}' >> $BASH_ENV
       - checkout
       - run:
-          name: Prepare K8S templates
-          command: |
-            aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${CLUSTER_NAME}
-            rm -rf .k8s/.generated && mkdir -p .k8s/.generated
-            for f in .k8s/templates/staging.yml
-              do
-              envsubst < $f > ".k8s/.generated/$(basename $f)"
-            done
-      - run:
           name: Deploy
           command: |
-            kubectl apply -f .k8s/.generated/ --validate=true
+            kubectl apply -f .k8s/templates/staging.yml --validate=true
+            kubectl get pod
       # - run:
       #     name: Deploy to Kubernetes
       #     command: |
