@@ -51,5 +51,12 @@ jobs:
             sudo apt install -qq -y gettext
             kubectl apply -f ${HOME}/myapp/.k8s/templates/staging.yml
 
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy
+
 # What to do next? Set up a test job. Please see
 # https://circleci.com/docs/2.0/configuration-reference/, for more  info on how to get started.
