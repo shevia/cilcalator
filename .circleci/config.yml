@@ -47,7 +47,10 @@ jobs:
       - run:
           name: Deploy
           command: |
-            kubectl apply -f .k8s/templates/staging.yml --validate=true
+            sudo apt update
+            sudo apt install -qq -y gettext
+            envsubst < .k8s/templates/staging.yml > k8s.yml
+            kubectl apply -f k8s.yml
             kubectl get pod
       # - run:
       #     name: Deploy to Kubernetes
