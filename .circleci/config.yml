@@ -73,7 +73,7 @@ jobs:
           name: Adding Ingress rule
           command: |
             aws eks --region us-east-2 update-kubeconfig --name ${CLUSTER_NAME}
-            /ingress_rules_editor -ingress=${CLUSTER_NAME} -service=${APP_NAME}--web -host=${APP_NAME}.docker-staging-test.be -port=80 -y add
+            /ingress_rules_editor -ingress=admetricks -service=${APP_NAME}--web -host=${APP_NAME}.docker-staging-test.be -port=80 -y add
 
 workflows:
   version: 2
