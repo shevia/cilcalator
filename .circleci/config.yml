@@ -59,6 +59,21 @@ jobs:
       #       sudo apt install -qq -y gettext
       #       envsubst < ${HOME}/myapp/.k8s/templates/staging.yml > ${HOME}/k8s.yml
       #       kubectl apply -f ${HOME}/k8s.yml
+  ingress-stage: &ingress-stage
+    docker:
+      - image: opsmetricks/ingress-aws-cli
+    environment:
+      - PROJECT_NAME: cilcalator
+    steps:
+      - run:
+          name: Set envars
+          command: |
+            echo 'export APP_NAME=${REPOSITORY_NAME}-${CIRCLE_BRANCH}' >> $BASH_ENV
+      - run:
+          name: Adding Ingress rule
+          command: |
+            aws eks --region us-east-2 update-kubeconfig --name cilcalator
+            /ingress_rules_editor -ingress=cilcalator -service=${APP_NAME}--web -host=${APP_NAME}.docker-staging-test.be -port=80 -y add
 
 workflows:
   version: 2
