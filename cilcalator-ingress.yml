@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: test-ingress
+  name: cilcalator
 spec:
   backend:
-    serviceName: testsvc
+    serviceName: app-staging-service
     servicePort: 80
