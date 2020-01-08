@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: app-staging
-        image: $AWS_ECR_ACCOUNT_URL/$REPOSITORY_NAME:$CIRCLE_BRANCH-$CIRCLE_SHA1
+        image: ${AWS_ECR_ACCOUNT_URL}/{$REPOSITORY_NAME}:{$CIRCLE_BRANCH}-{$CIRCLE_SHA1}
         ports:
           - containerPort: 3000
         envFrom:
@@ -39,7 +39,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: app-staging-service
+  name: ${APP_NAME}--web
 spec:
   type : LoadBalancer
   selector:
