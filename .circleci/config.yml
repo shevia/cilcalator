@@ -72,7 +72,8 @@ jobs:
       - run:
           name: Adding Ingress rule
           command: |
-            aws eks --region us-east-2 update-kubeconfig --name ${CLUSTER_NAME}/ingress_rules_editor -service=${APP_NAME}--web -host=${APP_NAME}.docker-staging-test.be -port=80 -y add
+            aws eks --region us-east-2 update-kubeconfig --name cilcalator
+            /ingress_rules_editor -ingress=cilcalator -service=${APP_NAME}--web -host=${APP_NAME}.docker-staging-test.be -port=80 -y add
 
 workflows:
   version: 2
