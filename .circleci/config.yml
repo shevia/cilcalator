@@ -85,6 +85,10 @@ workflows:
           context: cilcalator-stage
           requires:
           - build-stage
+      - ingress-stage:
+          context: cilcalator-stage
+          requires:
+          - deploy-stage
 
 # What to do next? Set up a test job. Please see
 # https://circleci.com/docs/2.0/configuration-reference/, for more  info on how to get started.
