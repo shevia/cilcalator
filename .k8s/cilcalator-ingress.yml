@@ -4,5 +4,5 @@ metadata:
   name: cilcalator
 spec:
   backend:
-    serviceName: app-staging-service
+    serviceName: test-eksctl-ecr-master--web
     servicePort: 80
