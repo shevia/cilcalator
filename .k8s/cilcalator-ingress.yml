@@ -2,7 +2,13 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: cilcalator
+  annotations: kubernetes.io/ingress.global-static-ip-name: cilcalator
 spec:
-  backend:
-    serviceName: test-eksctl-ecr-master--web
-    servicePort: 80
+  rules:
+  - host: docker-staging-test.be
+    http:
+      paths:
+      - backend:
+          serviceName: test-eksctl-ecr-master--web
+          servicePort: 80
+        path: /*
