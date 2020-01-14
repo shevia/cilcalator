@@ -1,51 +1,55 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-config
+  name: ${APP_NAME}--env
   labels:
-    app: app-staging
+    app: ${APP_NAME}
 data:
   ENV_VALUE1: test
-
 
 ---
 
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: app-staging-deployment
+  name: ${APP_NAME}--web
   labels:
-    app: app-staging
+    app: ${APP_NAME}
 spec:
-  replicas: 3
+  replicas: ${CONTAINER_WEB_REPLICAS}
   selector:
     matchLabels:
-      app: app-staging
+      app: ${APP_NAME}--web-pod
   template:
     metadata:
       labels:
-        app: app-staging
+        app: ${APP_NAME}--web-pod
     spec:
+      restartPolicy: Always
       containers:
-      - name: app-staging
+      - name: ${APP_NAME}--web-container
         image: ${AWS_ECR_ACCOUNT_URL}/${REPOSITORY_NAME}:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
         ports:
           - containerPort: 3000
         envFrom:
           - configMapRef:
-              name: app-config
+              name: ${APP_NAME}--env
 
 ---
+
 kind: Service
 apiVersion: v1
 metadata:
   name: ${APP_NAME}--web
+  labels:
+    app: ${APP_NAME}
 spec:
-  loadBalancerIP: 52.6.220.66
-  type : LoadBalancer
   selector:
-    app: app-staging
+    name: ${APP_NAME}--web-pod
   ports:
   - protocol: TCP
     port: 80
     targetPort: 3000
+  type : NodePort
+
+---

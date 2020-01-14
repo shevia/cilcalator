@@ -5,16 +5,17 @@ Cilcalator
 # https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html
 
 eksctl create cluster \
---name prod \
+--name test-cilcalator \
 --version 1.14 \
---region us-west-2 \
---nodegroup-name standard-workers \
---node-type t3.medium \
---nodes 3 \
+--region us-east-1 \
+--zones us-east-1a us-east-1b \
+--nodegroup-name cilcalator-workers \
+--node-type t3.small \
+--nodes 1 \
 --nodes-min 1 \
 --nodes-max 4 \
 --ssh-access \
---ssh-public-key my-public-key.pub \
+--ssh-public-key eks-shevia \
 --managed
 
 # Crear ALB-Ingress-Controller
@@ -52,6 +53,9 @@ kubectl edit deployment.apps/alb-ingress-controller -n kube-system
         - --aws-vpc-id=vpc-03468a8157edca5bd
         - --aws-region=us-east-1
 
+# Problemas con ingress sin ADDRESS
+https://stackoverflow.com/questions/51511547/empty-address-kubernetes-ingress
+
 # Crear un Ingress para el proycto
 kubectl apply -f .k8s/cilcalator-ingress.yml
 
@@ -61,3 +65,7 @@ kubectl describe ingress
 
 #
 kubectl describe service test-eksctl-ecr-master--web | grep Ingress
+
+
+#Borrar Cluster
+eksctl delete cluster --name=test-eksctl
