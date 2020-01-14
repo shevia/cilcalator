@@ -8,7 +8,7 @@ eksctl create cluster \
 --name test-cilcalator \
 --version 1.14 \
 --region us-east-1 \
---zones us-east-1a us-east-1b \
+--zones us-east-1a,us-east-1b \
 --nodegroup-name cilcalator-workers \
 --node-type t3.small \
 --nodes 1 \
