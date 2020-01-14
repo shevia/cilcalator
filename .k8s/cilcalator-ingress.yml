@@ -10,6 +10,6 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: test-eksctl-ecr-master--web
+          serviceName: test-cilcalator-master--web
           servicePort: 80
         path: /*
