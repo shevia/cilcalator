@@ -3,7 +3,8 @@ kind: Ingress
 metadata:
   name: cilcalator
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: cilcalator
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
 spec:
   rules:
   - host: docker-staging-test.be
