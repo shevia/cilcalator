@@ -23,7 +23,7 @@ eksctl create cluster \
 
 eksctl utils associate-iam-oidc-provider \
     --region us-east-1 \
-    --cluster prod \
+    --cluster test-cilcalator \
     --approve
 
 aws iam create-policy \
@@ -36,8 +36,8 @@ eksctl create iamserviceaccount \
     --region us-east-1 \
     --name alb-ingress-controller \
     --namespace kube-system \
-    --cluster prod \
-    --attach-policy-arn arn:aws:iam::111122223333:policy/ALBIngressControllerIAMPolicy \
+    --cluster test-cilcalator \
+    --attach-policy-arn arn:aws:iam::415538714327:policy/ALBIngressControllerIAMPolicy \
     --override-existing-serviceaccounts \
     --approve
 
@@ -49,8 +49,8 @@ kubectl edit deployment.apps/alb-ingress-controller -n kube-system
       containers:
       - args:
         - --ingress-class=alb
-        - --cluster-name=prod
-        - --aws-vpc-id=vpc-03468a8157edca5bd
+        - --cluster-name=test-cilcalator
+        - --aws-vpc-id=vpc-04bbf79b954792ab7
         - --aws-region=us-east-1
 
 # Problemas con ingress sin ADDRESS
@@ -68,4 +68,4 @@ kubectl describe service test-eksctl-ecr-master--web | grep Ingress
 
 
 #Borrar Cluster
-eksctl delete cluster --name=test-eksctl
+eksctl delete cluster --name=test-cilcalator

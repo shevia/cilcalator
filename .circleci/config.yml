@@ -52,13 +52,6 @@ jobs:
             envsubst < .k8s/templates/staging.yml > k8s.yml
             kubectl apply -f k8s.yml
             kubectl get pod
-      # - run:
-      #     name: Deploy to Kubernetes
-      #     command: |
-      #       sudo apt update
-      #       sudo apt install -qq -y gettext
-      #       envsubst < ${HOME}/myapp/.k8s/templates/staging.yml > ${HOME}/k8s.yml
-      #       kubectl apply -f ${HOME}/k8s.yml
   ingress-stage: &ingress-stage
     docker:
       - image: opsmetricks/ingress-aws-cli
