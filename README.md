@@ -64,7 +64,7 @@ kubectl get ingress
 kubectl describe ingress
 
 #
-kubectl describe service test-eksctl-ecr-master--web | grep Ingress
+kubectl describe service test-cilcalator-master--web | grep Ingress
 
 
 #Borrar Cluster

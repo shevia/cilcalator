@@ -1,10 +1,9 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: cilcalator
+  name: ingress-cilcalator
   annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
   - host: docker-staging-test.be
@@ -13,4 +12,4 @@ spec:
       - backend:
           serviceName: test-cilcalator-master--web
           servicePort: 80
-        path: /*
+        path: /
