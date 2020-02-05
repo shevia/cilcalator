@@ -66,6 +66,7 @@ jobs:
           name: Adding Ingress rule
           command: |
             aws eks --region ${AWS_REGION} update-kubeconfig --name ${CLUSTER_NAME}
+            /ingress_rules_editor -ingress=ingress-cilcalator -host=${APP_NAME}.docker-staging-test.be remove
             /ingress_rules_editor -ingress=ingress-cilcalator -service=${APP_NAME}--web -host=${APP_NAME}.docker-staging-test.be -port=80 -path=/ -y add
 
 workflows:
