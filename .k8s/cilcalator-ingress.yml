@@ -9,7 +9,7 @@ spec:
   - host: docker-staging-test.be
     http:
       paths:
-      - path: /
+      - path: /*
         backend:
           serviceName: test-cilcalator-master--web
           servicePort: 80

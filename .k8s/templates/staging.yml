@@ -19,11 +19,11 @@ spec:
   replicas: ${CONTAINER_WEB_REPLICAS}
   selector:
     matchLabels:
-      app: ${APP_NAME}--web-pod
+      name: ${APP_NAME}--web-pod
   template:
     metadata:
       labels:
-        app: ${APP_NAME}--web-pod
+        name: ${APP_NAME}--web-pod
     spec:
       restartPolicy: Always
       containers:
